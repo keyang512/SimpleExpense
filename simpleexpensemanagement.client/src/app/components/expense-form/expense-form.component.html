@@ -1,0 +1,147 @@
+<div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+  <nz-card nzTitle="Add New Expense" [nzBordered]="false" style="box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px;">
+    <form nz-form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" style="margin-top: 24px;">
+      
+      <!-- Description and Amount Row -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+        <div>
+          <label for="description" style="display: block; margin-bottom: 8px; font-weight: 500; color: #262626;">Description *</label>
+          <input 
+            nz-input 
+            id="description" 
+            formControlName="description" 
+            placeholder="Enter expense description"
+            style="width: 100%; border-radius: 6px;">
+          <div *ngIf="isFieldInvalid('description')" style="color: #ff4d4f; font-size: 12px; margin-top: 4px;">
+            {{ getFieldError('description') }}
+          </div>
+        </div>
+
+        <div>
+          <label for="amount" style="display: block; margin-bottom: 8px; font-weight: 500; color: #262626;">Amount *</label>
+          <nz-input-number 
+            id="amount" 
+            formControlName="amount" 
+            placeholder="0.00" 
+            [nzMin]="0.01"
+            [nzPrecision]="2"
+            style="width: 100%; border-radius: 6px;">
+          </nz-input-number>
+          <div *ngIf="isFieldInvalid('amount')" style="color: #ff4d4f; font-size: 12px; margin-top: 4px;">
+            {{ getFieldError('amount') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Date and Person Row -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+        <div>
+          <label for="date" style="display: block; margin-bottom: 8px; font-weight: 500; color: #262626;">Date *</label>
+          <nz-date-picker 
+            id="date" 
+            formControlName="date" 
+            nzFormat="MM/dd/yyyy"
+            nzPlaceHolder="Select date"
+            nzShowToday
+            style="width: 100%; height: 32px; border-radius: 6px;">
+          </nz-date-picker>
+          <div *ngIf="isFieldInvalid('date')" style="color: #ff4d4f; font-size: 12px; margin-top: 4px;">
+            {{ getFieldError('date') }}
+          </div>
+        </div>
+
+        <div>
+          <label for="personId" style="display: block; margin-bottom: 8px; font-weight: 500; color: #262626;">Person *</label>
+          <nz-select 
+            id="personId" 
+            formControlName="personId" 
+            nzShowSearch
+            nzPlaceHolder="Select a person"
+            style="width: 100%; border-radius: 6px;">
+            <nz-option 
+              *ngFor="let person of people" 
+              [nzValue]="person.id" 
+              [nzLabel]="person.name">
+            </nz-option>
+          </nz-select>
+          <div *ngIf="isFieldInvalid('personId')" style="color: #ff4d4f; font-size: 12px; margin-top: 4px;">
+            {{ getFieldError('personId') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div style="margin-bottom: 24px;">
+        <label for="categoryIds" style="display: block; margin-bottom: 8px; font-weight: 500; color: #262626;">Categories *</label>
+        <nz-select 
+          id="categoryIds" 
+          formControlName="categoryIds" 
+          nzMode="multiple"
+          nzShowSearch
+          nzPlaceHolder="Select categories"
+          style="width: 100%; border-radius: 6px;">
+          <nz-option 
+            *ngFor="let category of categories" 
+            [nzValue]="category.id" 
+            [nzLabel]="category.name">
+          </nz-option>
+        </nz-select>
+        <div *ngIf="isFieldInvalid('categoryIds')" style="color: #ff4d4f; font-size: 12px; margin-top: 4px;">
+          {{ getFieldError('categoryIds') }}
+        </div>
+        <small style="color: #8c8c8c; font-style: italic;">Select one or more categories</small>
+      </div>
+
+      <!-- Notes -->
+      <div style="margin-bottom: 24px;">
+        <label for="notes" style="display: block; margin-bottom: 8px; font-weight: 500; color: #262626;">Notes</label>
+        <textarea 
+          nz-input 
+          id="notes" 
+          formControlName="notes" 
+          placeholder="Optional notes about the expense"
+          [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+          style="width: 100%; border-radius: 6px;">
+        </textarea>
+        <div *ngIf="isFieldInvalid('notes')" style="color: #ff4d4f; font-size: 12px; margin-top: 4px;">
+          {{ getFieldError('notes') }}
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div *ngIf="error" style="margin-bottom: 16px;">
+        <nz-alert nzType="error" [nzMessage]="error"></nz-alert>
+      </div>
+
+      <div *ngIf="success" style="margin-bottom: 16px;">
+        <nz-alert nzType="success" [nzMessage]="success"></nz-alert>
+      </div>
+
+      <!-- Debug Info -->
+      <div style="margin-top: 16px; padding: 12px; background-color: #f5f5f5; border-radius: 6px; font-size: 12px;">
+        <div>Form Valid: {{ expenseForm.valid }}</div>
+        <div>Form Invalid: {{ expenseForm.invalid }}</div>
+        <div>Description Valid: {{ expenseForm.get('description')?.valid }} ({{ expenseForm.get('description')?.value }})</div>
+        <div style="color: red;">Amount Valid: {{ expenseForm.get('amount')?.valid }} ({{ expenseForm.get('amount')?.value }}) Type: {{ getAmountType() }}</div>
+        <div>Date Valid: {{ expenseForm.get('date')?.valid }} ({{ expenseForm.get('date')?.value }})</div>
+        <div>Person Valid: {{ expenseForm.get('personId')?.valid }} ({{ expenseForm.get('personId')?.value }})</div>
+        <div>Categories Valid: {{ expenseForm.get('categoryIds')?.valid }} ({{ expenseForm.get('categoryIds')?.value?.length || 0 }} selected)</div>
+      </div>
+
+      <!-- Submit Button -->
+      <div style="display: flex; justify-content: flex-end; padding-top: 24px;">
+        <button 
+          nz-button 
+          nzType="primary" 
+          nzSize="large"
+          type="submit"
+          [nzLoading]="loading"
+          [disabled]="!isFormValid()"
+          style="height: 40px; padding: 0 24px; border-radius: 6px;">
+          <span nz-icon nzType="plus"></span>
+          <span style="margin-left: 8px;">Add Expense</span>
+        </button>
+      </div>
+    </form>
+  </nz-card>
+</div>

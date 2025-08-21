@@ -1,0 +1,1 @@
+D:\Music\SimpleExpenseManagement\simpleexpensemanagement.client\obj\Debug\simpleexpensemanagement.client.esproj.CoreCompileInputs.cache

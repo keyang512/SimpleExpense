@@ -1,0 +1,186 @@
+.expense-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.expense-form-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border: none;
+}
+
+.expense-form-card ::ng-deep .p-card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+  padding: 20px;
+}
+
+.expense-form-card ::ng-deep .p-card-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.expense-form-card ::ng-deep .p-card-body {
+  padding: 30px;
+}
+
+.expense-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.field-hint {
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* PrimeNG Component Customizations */
+::ng-deep .p-inputtext,
+::ng-deep .p-inputnumber,
+::ng-deep .p-calendar,
+::ng-deep .p-dropdown,
+::ng-deep .p-multiselect,
+::ng-deep .p-textarea {
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+::ng-deep .p-inputtext:focus,
+::ng-deep .p-inputnumber:focus,
+::ng-deep .p-calendar:focus,
+::ng-deep .p-dropdown:focus,
+::ng-deep .p-multiselect:focus,
+::ng-deep .p-textarea:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+::ng-deep .p-inputtext.p-invalid,
+::ng-deep .p-inputnumber.p-invalid,
+::ng-deep .p-calendar.p-invalid,
+::ng-deep .p-dropdown.p-invalid,
+::ng-deep .p-multiselect.p-invalid,
+::ng-deep .p-textarea.p-invalid {
+  border-color: #ef4444;
+}
+
+::ng-deep .p-button {
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+::ng-deep .p-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+::ng-deep .p-message {
+  border-radius: 8px;
+  border: none;
+}
+
+::ng-deep .p-message.p-message-error {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+::ng-deep .p-message.p-message-success {
+  background-color: #f0fdf4;
+  color: #16a34a;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .expense-form-container {
+    padding: 10px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .expense-form-card ::ng-deep .p-card-body {
+    padding: 20px;
+  }
+}
+
+/* Animation for form appearance */
+.expense-form-container {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover effects for form fields */
+.form-field:hover .field-label {
+  color: #667eea;
+}
+
+/* Custom scrollbar for multiselect */
+::ng-deep .p-multiselect-panel {
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+}
+
+::ng-deep .p-multiselect-panel .p-multiselect-items {
+  padding: 8px 0;
+}
+
+::ng-deep .p-multiselect-panel .p-multiselect-item {
+  padding: 10px 16px;
+  border-radius: 6px;
+  margin: 2px 8px;
+  transition: background-color 0.2s ease;
+}
+
+::ng-deep .p-multiselect-panel .p-multiselect-item:hover {
+  background-color: #f3f4f6;
+}
+
+::ng-deep .p-multiselect-panel .p-multiselect-item.p-highlight {
+  background-color: #667eea;
+  color: white;
+}
