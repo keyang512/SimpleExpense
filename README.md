@@ -135,10 +135,6 @@ npm test         # Run tests
 - **Database**: SQL Server Express/LocalDB
 - **Architecture**: RESTful OData API with full CRUD operations
 
-## 📝 License
-
-This project is created for the Ocerra Practical Test.
-
 ---
 
 **Need help?** Check the troubleshooting section above or open an issue!

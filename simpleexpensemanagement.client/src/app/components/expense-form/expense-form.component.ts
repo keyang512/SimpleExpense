@@ -118,12 +118,12 @@ export class ExpenseFormComponent implements OnInit {
 
       const formValue = this.expenseForm.value;
       const expense: CreateExpense = {
-        description: formValue.description,
-        amount: parseFloat(formValue.amount),
-        date: formValue.date instanceof Date ? formValue.date.toISOString().split('T')[0] : formValue.date,
-        notes: formValue.notes || undefined,
-        personId: formValue.personId,
-        categoryIds: formValue.categoryIds
+        Description: formValue.description,
+        Amount: parseFloat(formValue.amount),
+        Date: formValue.date instanceof Date ? formValue.date.toISOString().split('T')[0] : formValue.date,
+        Notes: formValue.notes || undefined,
+        PersonId: formValue.personId,
+        CategoryIds: formValue.categoryIds
       };
 
       this.expenseService.createExpense(expense).subscribe({

@@ -55,44 +55,44 @@
         </thead>
         
         <tbody>
-          <tr *ngFor="let expense of basicTable.data" style="transition: background-color 0.15s;">
+          <tr *ngFor="let expense of expenses" style="transition: background-color 0.15s;">
             <td style="padding: 16px;">
               <div style="font-weight: 500; color: #262626;">
-                {{ expense.description }}
+                {{ expense.Description }}
               </div>
             </td>
             <td style="padding: 16px;">
               <nz-tag 
-                [nzColor]="getSeverity(expense.amount)"
+                [nzColor]="getSeverity(expense?.Amount || 0)"
                 style="border-radius: 12px; padding: 4px 12px; font-weight: 500;">
-                {{ formatAmount(expense.amount) }}
+                {{ formatAmount(expense?.Amount) }}
               </nz-tag>
             </td>
             <td style="padding: 16px;">
               <div style="display: flex; align-items: center; color: #595959;">
                 <span nz-icon nzType="calendar" nzTheme="outline" style="margin-right: 8px; color: #8c8c8c;"></span>
-                {{ formatDate(expense.date) }}
+                {{ formatDate(expense?.Date || '') }}
               </div>
             </td>
             <td style="padding: 16px;">
               <div style="display: flex; align-items: center; color: #595959;">
                 <span nz-icon nzType="user" nzTheme="outline" style="margin-right: 8px; color: #8c8c8c;"></span>
-                {{ expense.person.name }}
+                {{ expense?.Person?.Name || 'Unknown' }}
               </div>
             </td>
             <td style="padding: 16px;">
               <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                 <nz-tag 
-                  *ngFor="let category of expense.categories" 
+                  *ngFor="let category of expense?.Categories || []" 
                   nzColor="blue"
                   style="border-radius: 12px; padding: 2px 8px; font-size: 12px;">
-                  {{ category.name }}
+                  {{ category?.Name || 'Unknown' }}
                 </nz-tag>
               </div>
             </td>
             <td style="padding: 16px;">
-              <div *ngIf="expense.notes; else noNotes" style="max-width: 200px;">
-                <span style="color: #595959; font-size: 14px;">{{ expense.notes }}</span>
+              <div *ngIf="expense?.Notes; else noNotes" style="max-width: 200px;">
+                <span style="color: #595959; font-size: 14px;">{{ expense.Notes }}</span>
               </div>
               <ng-template #noNotes>
                 <span style="color: #d9d9d9; font-size: 14px;">-</span>
@@ -104,7 +104,7 @@
                   nzTitle="Are you sure you want to delete this expense?"
                   nzOkText="Yes"
                   nzCancelText="No"
-                  (nzOnConfirm)="deleteExpense(expense.id)">
+                  (nzOnConfirm)="deleteExpense(expense.Id)">
                   <button 
                     nz-button 
                     nzType="default" 

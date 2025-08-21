@@ -177,3 +177,4 @@ D:\Music\SimpleExpenseManagement\SimpleExpenseManagement.Server\bin\Debug\net8.0
 D:\Music\SimpleExpenseManagement\SimpleExpenseManagement.Server\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 D:\Music\SimpleExpenseManagement\SimpleExpenseManagement.Server\bin\Debug\net8.0\System.ClientModel.dll
 D:\Music\SimpleExpenseManagement\SimpleExpenseManagement.Server\bin\Debug\net8.0\System.Formats.Asn1.dll
+D:\Music\SimpleExpenseManagement\SimpleExpenseManagement.Server\obj\Debug\net8.0\SimpleExpenseManagement.Server.sourcelink.json

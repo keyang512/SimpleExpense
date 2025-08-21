@@ -62,9 +62,17 @@ export class ExpenseListComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Failed to load expenses. Please try again.';
-        this.loading = false;
-        console.error('Error loading expenses:', error);
+        // Try simple method as fallback
+        this.expenseService.getExpensesSimple().subscribe({
+          next: (expenses) => {
+            this.expenses = expenses;
+            this.loading = false;
+          },
+          error: (simpleError) => {
+            this.error = 'Failed to load expenses. Please try again.';
+            this.loading = false;
+          }
+        });
       }
     });
   }
@@ -73,24 +81,36 @@ export class ExpenseListComponent implements OnInit {
     // Using ng-zorro-antd modal confirmation will be handled in template
     this.expenseService.deleteExpense(id).subscribe({
       next: () => {
-        this.expenses = this.expenses.filter(e => e.id !== id);
+        this.expenses = this.expenses.filter(e => e.Id !== id);
       },
       error: (error) => {
         this.error = 'Failed to delete expense. Please try again.';
-        console.error('Error deleting expense:', error);
       }
     });
   }
 
-  formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString();
+  formatDate(dateString: string | undefined | null): string {
+    if (!dateString) {
+      return 'N/A';
+    }
+    try {
+      return new Date(dateString).toLocaleDateString();
+    } catch (error) {
+      return 'Invalid Date';
+    }
   }
 
-  formatAmount(amount: number): string {
+  formatAmount(amount: number | undefined | null): string {
+    if (amount === undefined || amount === null) {
+      return '$0.00';
+    }
     return `$${amount.toFixed(2)}`;
   }
 
-  getSeverity(amount: number): string {
+  getSeverity(amount: number | undefined | null): string {
+    if (amount === undefined || amount === null) {
+      return 'default';
+    }
     if (amount > 100) return 'error';
     if (amount > 50) return 'warning';
     return 'success';

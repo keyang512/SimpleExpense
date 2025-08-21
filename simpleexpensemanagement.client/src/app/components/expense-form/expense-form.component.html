@@ -60,8 +60,8 @@
             style="width: 100%; border-radius: 6px;">
             <nz-option 
               *ngFor="let person of people" 
-              [nzValue]="person.id" 
-              [nzLabel]="person.name">
+              [nzValue]="person.Id" 
+              [nzLabel]="person.Name">
             </nz-option>
           </nz-select>
           <div *ngIf="isFieldInvalid('personId')" style="color: #ff4d4f; font-size: 12px; margin-top: 4px;">
@@ -82,8 +82,8 @@
           style="width: 100%; border-radius: 6px;">
           <nz-option 
             *ngFor="let category of categories" 
-            [nzValue]="category.id" 
-            [nzLabel]="category.name">
+            [nzValue]="category.Id" 
+            [nzLabel]="category.Name">
           </nz-option>
         </nz-select>
         <div *ngIf="isFieldInvalid('categoryIds')" style="color: #ff4d4f; font-size: 12px; margin-top: 4px;">
@@ -115,17 +115,6 @@
 
       <div *ngIf="success" style="margin-bottom: 16px;">
         <nz-alert nzType="success" [nzMessage]="success"></nz-alert>
-      </div>
-
-      <!-- Debug Info -->
-      <div style="margin-top: 16px; padding: 12px; background-color: #f5f5f5; border-radius: 6px; font-size: 12px;">
-        <div>Form Valid: {{ expenseForm.valid }}</div>
-        <div>Form Invalid: {{ expenseForm.invalid }}</div>
-        <div>Description Valid: {{ expenseForm.get('description')?.valid }} ({{ expenseForm.get('description')?.value }})</div>
-        <div style="color: red;">Amount Valid: {{ expenseForm.get('amount')?.valid }} ({{ expenseForm.get('amount')?.value }}) Type: {{ getAmountType() }}</div>
-        <div>Date Valid: {{ expenseForm.get('date')?.valid }} ({{ expenseForm.get('date')?.value }})</div>
-        <div>Person Valid: {{ expenseForm.get('personId')?.valid }} ({{ expenseForm.get('personId')?.value }})</div>
-        <div>Categories Valid: {{ expenseForm.get('categoryIds')?.valid }} ({{ expenseForm.get('categoryIds')?.value?.length || 0 }} selected)</div>
       </div>
 
       <!-- Submit Button -->

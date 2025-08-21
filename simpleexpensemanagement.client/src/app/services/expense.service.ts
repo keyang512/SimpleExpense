@@ -1,64 +1,109 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 export interface Person {
-  id: string;
-  name: string;
+  Id: string;
+  Name: string;
 }
 
 export interface Category {
-  id: string;
-  name: string;
+  Id: string;
+  Name: string;
 }
 
 export interface Expense {
-  id: string;
-  description: string;
-  amount: number;
-  date: string;
-  notes?: string;
-  person: Person;
-  categories: Category[];
-  createdAt: string;
-  updatedAt?: string;
+  Id: string;
+  Description: string;
+  Amount: number;
+  Date: string;
+  Notes?: string;
+  Person: Person;
+  Categories: Category[];
+  CreatedAt: string;
+  UpdatedAt?: string;
 }
 
 export interface CreateExpense {
-  description: string;
-  amount: number;
-  date: string;
-  notes?: string;
-  personId: string;
-  categoryIds: string[];
+  Description: string;
+  Amount: number;
+  Date: string;
+  Notes?: string;
+  PersonId: string;
+  CategoryIds: string[];
 }
 
 export interface UpdateExpense {
-  description: string;
-  amount: number;
-  date: string;
-  notes?: string;
-  personId: string;
-  categoryIds: string[];
+  Description: string;
+  Amount: number;
+  Date: string;
+  Notes?: string;
+  PersonId: string;
+  CategoryIds: string[];
+}
+
+export interface ODataResponse<T> {
+  '@odata.context': string;
+  value: T[];
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpenseService {
-  private expensesUrl = '/api/expenses';
-  private peopleUrl = '/api/people';
-  private categoriesUrl = '/api/categories';
+  private expensesUrl = '/api/Expenses';
+  private peopleUrl = '/api/People';
+  private categoriesUrl = '/api/Categories';
 
   constructor(private http: HttpClient) { }
 
   // Expense operations
   getExpenses(): Observable<Expense[]> {
-    return this.http.get<Expense[]>(this.expensesUrl);
+    // Try different OData expand syntax
+    const url = `${this.expensesUrl}?$expand=Categories,Person&$select=Id,Description,Amount,Date,Notes,Person,Categories,CreatedAt,UpdatedAt`;
+    
+    return this.http.get<any>(url).pipe(
+      map(response => {
+        // Handle different possible OData response structures
+        let expenses: Expense[] = [];
+        if (response && typeof response === 'object') {
+          if (response.value && Array.isArray(response.value)) {
+            expenses = response.value;
+          } else if (Array.isArray(response)) {
+            // Direct array response
+            expenses = response;
+          } else if (response['@odata.value'] && Array.isArray(response['@odata.value'])) {
+            // Alternative OData structure
+            expenses = response['@odata.value'];
+          }
+        }
+        
+        return expenses;
+      })
+    );
+  }
+
+  // Fallback method to get expenses without expand
+  getExpensesSimple(): Observable<Expense[]> {
+    const url = `${this.expensesUrl}`;
+    
+    return this.http.get<any>(url).pipe(
+      map(response => {
+        let expenses: Expense[] = [];
+        if (response && typeof response === 'object') {
+          if (response.value && Array.isArray(response.value)) {
+            expenses = response.value;
+          } else if (Array.isArray(response)) {
+            expenses = response;
+          }
+        }
+        return expenses;
+      })
+    );
   }
 
   getExpense(id: string): Observable<Expense> {
-    return this.http.get<Expense>(`${this.expensesUrl}(${id})`);
+    return this.http.get<Expense>(`${this.expensesUrl}/${id}`);
   }
 
   createExpense(expense: CreateExpense): Observable<Expense> {
@@ -66,24 +111,40 @@ export class ExpenseService {
   }
 
   updateExpense(id: string, expense: UpdateExpense): Observable<void> {
-    return this.http.put<void>(`${this.expensesUrl}(${id})`, expense);
+    return this.http.put<void>(`${this.expensesUrl}/${id}`, expense);
   }
 
   deleteExpense(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.expensesUrl}(${id})`);
+    return this.http.delete<void>(`${this.expensesUrl}/${id}`);
   }
 
   getExpensesSummary(): Observable<any> {
     return this.http.get<any>(`${this.expensesUrl}/summary`);
   }
 
-  testConnection(): Observable<any> {
-    return this.http.get<any>(`${this.expensesUrl}/test-connection`);
-  }
-
   // People operations
   getPeople(): Observable<Person[]> {
-    return this.http.get<Person[]>(this.peopleUrl);
+    const url = `${this.peopleUrl}`;
+    
+    return this.http.get<any>(url).pipe(
+      map(response => {
+        // Handle different possible OData response structures
+        let people: Person[] = [];
+        if (response && typeof response === 'object') {
+          if (response.value && Array.isArray(response.value)) {
+            people = response.value;
+          } else if (Array.isArray(response)) {
+            // Direct array response
+            people = response;
+          } else if (response['@odata.value'] && Array.isArray(response['@odata.value'])) {
+            // Alternative OData structure
+            people = response['@odata.value'];
+          }
+        }
+        
+        return people;
+      })
+    );
   }
 
   getPerson(id: string): Observable<Person> {
@@ -95,7 +156,7 @@ export class ExpenseService {
   }
 
   getPersonExpensesCount(personId: string): Observable<number> {
-    return this.http.get<number>(`${this.peopleUrl}(${personId})/expenses/$count`);
+    return this.http.get<number>(`${this.peopleUrl}(${personId})/expenses/count`);
   }
 
   getPeopleSummary(): Observable<any> {
@@ -104,7 +165,27 @@ export class ExpenseService {
 
   // Categories operations
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.categoriesUrl);
+    const url = `${this.categoriesUrl}`;
+    
+    return this.http.get<any>(url).pipe(
+      map(response => {
+        // Handle different possible OData response structures
+        let categories: Category[] = [];
+        if (response && typeof response === 'object') {
+          if (response.value && Array.isArray(response.value)) {
+            categories = response.value;
+          } else if (Array.isArray(response)) {
+            // Direct array response
+            categories = response;
+          } else if (response['@odata.value'] && Array.isArray(response['@odata.value'])) {
+            // Alternative OData structure
+            categories = response['@odata.value'];
+          }
+        }
+        
+        return categories;
+      })
+    );
   }
 
   getCategory(id: string): Observable<Category> {
@@ -116,7 +197,7 @@ export class ExpenseService {
   }
 
   getCategoryExpensesCount(categoryId: string): Observable<number> {
-    return this.http.get<number>(`${this.categoriesUrl}(${categoryId})/expenses/$count`);
+    return this.http.get<number>(`${this.categoriesUrl}(${categoryId})/expenses/count`);
   }
 
   getCategoriesSummary(): Observable<any> {
