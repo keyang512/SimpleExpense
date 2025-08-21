@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SimpleExpenseManagement.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45cfdeefcd1742d1e0c304e498b1c7d29ba4ea65")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+54ebad3d9b376896347fe1d3f48eea07304fcd48")]
 [assembly: System.Reflection.AssemblyProductAttribute("SimpleExpenseManagement.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SimpleExpenseManagement.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

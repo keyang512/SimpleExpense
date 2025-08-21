@@ -2,6 +2,12 @@
 
 A modern expense management application built with **ASP.NET Core 8** and **Angular**, featuring OData support for efficient data querying and a clean, responsive UI.
 
+## 🎬 Demo
+
+![Application Demo](Animation.gif)
+
+*Watch the application in action - managing expenses, people, and categories with a modern, responsive interface*
+
 ## 🚀 Quick Start
 
 Get the application running in under 5 minutes!
@@ -19,7 +25,7 @@ git clone <your-repo-url>
 cd SimpleExpenseManagement
 ```
 
-### 2. Start the Backend
+### 2. Start the application
 ```bash
 dotnet run --project .\SimpleExpenseManagement.Server\
 ```
@@ -28,14 +34,6 @@ The backend will automatically:
 - Create the database
 - Seed initial data (People: Anton, Steve | Categories: Office, Home)
 - Start on `http://localhost:5251`
-
-### 3. Start the Frontend
-```bash
-# In a new terminal
-cd simpleexpensemanagement.client
-npm install
-npm start
-```
 
 The Angular app will open automatically at `https://localhost:62574`
 
